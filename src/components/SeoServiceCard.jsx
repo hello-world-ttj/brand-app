@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-
+import Tick from "../assets/icons/tick.png";
 const SeoServiceCard = ({
   title,
   description,
@@ -33,7 +33,9 @@ const SeoServiceCard = ({
       <ul className="list-none space-y-2 text-sm text-gray-700">
         {points.map((point, idx) => (
           <li key={idx} className="flex items-start gap-2">
-            <span className="text-black text-lg mt-1">⬤</span>
+            <span className="text-black text-lg mt-1">
+              <img src={Tick} alt="Tick icon" className="w-4 h-4" />
+            </span>
             <span>{point}</span>
           </li>
         ))}

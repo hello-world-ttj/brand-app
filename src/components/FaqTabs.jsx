@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { CircleMinus } from "lucide-react";
 
 const tabs = [
@@ -34,8 +34,8 @@ const faqData = {
     {
       q: "What is the difference between on-page and off-page SEO?",
       a: [
-        "- On-Page SEO refers to optimizations made on the website itself, such as keyword optimization, content quality, meta tags, internal linking, and page speed. Think of it as optimizing the “inside” of your store.",
-        "- Off-Page SEO involves external factors that influence your rankings, such as backlinks, social media signals, and brand mentions. It’s like building your store’s reputation through word-of-mouth and partnerships.",
+        "- On-Page SEO refers to optimizations made on the website itself, such as keyword optimization, content quality, meta tags, internal linking, and page speed. Think of it as optimizing the 'inside' of your store.",
+        "- Off-Page SEO involves external factors that influence your rankings, such as backlinks, social media signals, and brand mentions. It's like building your store's reputation through word-of-mouth and partnerships.",
         "Both are essential for a well-rounded SEO strategy.",
       ],
     },
@@ -94,7 +94,7 @@ const faqData = {
     {
       q: "Do you offer custom SEO strategies?",
       a: [
-        "Yes. Every business is unique, and we don’t believe in cookie-cutter SEO.",
+        "Yes. Every business is unique, and we don't believe in cookie-cutter SEO.",
         "We create a tailored SEO roadmap based on your goals, industry, target audience, and current digital presence.",
       ],
     },
@@ -108,13 +108,157 @@ const faqData = {
   ],
 };
 
+// Function to render paragraph with bullet points
+const renderParagraph = (paragraph, index) => {
+  if (paragraph.startsWith("- ")) {
+    // This is a bullet point
+    return (
+      <li key={index} className="ml-4">
+        {paragraph.substring(2)}
+      </li>
+    );
+  } else {
+    // This is a regular paragraph
+    return (
+      <p key={index} className={index > 0 ? "mt-2" : ""}>
+        {paragraph}
+      </p>
+    );
+  }
+};
+
+// Function to group paragraphs and bullet points
+const renderAnswer = (answerArray) => {
+  const elements = [];
+  let currentBulletGroup = [];
+
+  answerArray.forEach((paragraph, index) => {
+    if (paragraph.startsWith("- ")) {
+      // Add to current bullet group
+      currentBulletGroup.push(paragraph);
+    } else {
+      // If we have accumulated bullet points, render them as a list
+      if (currentBulletGroup.length > 0) {
+        elements.push(
+          <ul
+            key={`bullets-${elements.length}`}
+            className="list-disc list-inside space-y-1 mt-2"
+          >
+            {currentBulletGroup.map((bullet, bulletIndex) => (
+              <li key={bulletIndex} className="ml-4">
+                {bullet.substring(2)}
+              </li>
+            ))}
+          </ul>
+        );
+        currentBulletGroup = [];
+      }
+
+      // Add the regular paragraph
+      elements.push(
+        <p
+          key={`para-${elements.length}`}
+          className={elements.length > 0 ? "mt-2" : ""}
+        >
+          {paragraph}
+        </p>
+      );
+    }
+  });
+
+  // Handle any remaining bullet points
+  if (currentBulletGroup.length > 0) {
+    elements.push(
+      <ul
+        key={`bullets-${elements.length}`}
+        className="list-disc list-inside space-y-1 mt-2"
+      >
+        {currentBulletGroup.map((bullet, bulletIndex) => (
+          <li key={bulletIndex} className="ml-4">
+            {bullet.substring(2)}
+          </li>
+        ))}
+      </ul>
+    );
+  }
+
+  return elements;
+};
+
 const FaqTabs = () => {
   const [activeTab, setActiveTab] = useState("General FAQ");
+  const [isInView, setIsInView] = useState(false);
+  const [titleVisible, setTitleVisible] = useState(false);
+  const [tabsVisible, setTabsVisible] = useState(false);
+  const [faqCardsVisible, setFaqCardsVisible] = useState(new Set());
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsInView(true);
+        }
+      },
+      {
+        threshold: 0.1,
+        rootMargin: "0px 0px -50px 0px",
+      }
+    );
+
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+
+    return () => {
+      if (sectionRef.current) {
+        observer.unobserve(sectionRef.current);
+      }
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isInView) {
+      // Title and tabs animation
+      setTimeout(() => setTitleVisible(true), 200);
+      setTimeout(() => setTabsVisible(true), 400);
+
+      // FAQ cards animation with stagger
+      setTimeout(() => {
+        faqData[activeTab].forEach((_, index) => {
+          setTimeout(() => {
+            setFaqCardsVisible((prev) => new Set([...prev, index]));
+          }, index * 150);
+        });
+      }, 600);
+    }
+  }, [isInView, activeTab]);
+
+  // Reset FAQ cards animation when tab changes
+  useEffect(() => {
+    if (isInView) {
+      setFaqCardsVisible(new Set());
+      setTimeout(() => {
+        faqData[activeTab].forEach((_, index) => {
+          setTimeout(() => {
+            setFaqCardsVisible((prev) => new Set([...prev, index]));
+          }, index * 150);
+        });
+      }, 100);
+    }
+  }, [activeTab, isInView]);
 
   return (
-    <section className="bg-[#f7f7f7] px-6 py-12 md:px-12 lg:px-20">
+    <section
+      ref={sectionRef}
+      className="bg-[#f7f7f7] px-6 py-12 md:px-12 lg:px-20"
+    >
       {/* Heading */}
-      <div className="flex items-center justify-center gap-3 mb-10">
+      <div
+        className={`flex items-center justify-center gap-3 mb-10 transition-all duration-700 ease-out ${
+          titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
         <h2 className="text-2xl md:text-3xl font-bold text-center">
           Frequently Asked Questions
         </h2>
@@ -122,12 +266,16 @@ const FaqTabs = () => {
       </div>
 
       {/* Tabs */}
-      <div className="flex flex-wrap justify-center items-center gap-6 border-b border-transparent mb-8">
+      <div
+        className={`flex flex-wrap justify-center items-center gap-6 border-b border-transparent mb-8 transition-all duration-700 ease-out ${
+          tabsVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
         {tabs.map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`relative pb-2 text-sm md:text-base font-medium transition-all duration-200 ${
+            className={`cursor-pointer relative pb-2 text-sm md:text-base font-medium transition-all duration-200 ${
               activeTab === tab
                 ? "text-black font-semibold"
                 : "text-gray-700 hover:text-black"
@@ -146,15 +294,19 @@ const FaqTabs = () => {
         {faqData[activeTab].length > 0 ? (
           faqData[activeTab].map((item, idx) => (
             <div
-              key={idx}
-              className="bg-white rounded-xl border border-gray-100 shadow-xs px-6 py-5"
+              key={`${activeTab}-${idx}`}
+              className={`bg-white rounded-xl border border-gray-100 shadow-xs px-6 py-5 transition-all duration-700 ease-out ${
+                faqCardsVisible.has(idx)
+                  ? "opacity-100 translate-y-0 scale-100"
+                  : "opacity-0 translate-y-8 scale-95"
+              }`}
             >
               <h4 className="font-semibold text-base sm:text-lg mb-2">
                 {item.q}
               </h4>
-              <p className="text-gray-700 text-sm sm:text-base leading-relaxed">
-                {item.a}
-              </p>
+              <div className="text-gray-700 text-sm sm:text-base leading-relaxed">
+                {Array.isArray(item.a) ? renderAnswer(item.a) : <p>{item.a}</p>}
+              </div>
             </div>
           ))
         ) : (

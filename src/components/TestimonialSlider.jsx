@@ -107,7 +107,10 @@ export default function TestimonialSlider() {
   }, [isInView]);
 
   return (
-    <section ref={sectionRef} className="py-16 px-4 bg-gray-100">
+    <section
+      ref={sectionRef}
+      className="py-16 px-4 bg-gray-100 overflow-x-hidden"
+    >
       <h2
         className={`text-3xl font-bold text-center mb-2 transition-all duration-700 ease-out ${
           titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
@@ -163,7 +166,7 @@ export default function TestimonialSlider() {
         {/* Left Arrow */}
         <button
           onClick={prev}
-          className={`absolute top-1/3 left-2 md:-left-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
+          className={`absolute top-1/2 left-2 md:-left-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
             controlsVisible
               ? "opacity-100 translate-x-0"
               : "opacity-0 -translate-x-8"
@@ -175,7 +178,7 @@ export default function TestimonialSlider() {
         {/* Right Arrow */}
         <button
           onClick={next}
-          className={`absolute top-1/3 right-2 md:-right-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
+          className={`absolute top-1/2 right-2 md:-right-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
             controlsVisible
               ? "opacity-100 translate-x-0"
               : "opacity-0 translate-x-8"

@@ -93,7 +93,7 @@ export default function SocialMediaSection() {
         Ensuring Your Complete Presence
       </h2>
 
-      <div className="relative w-[400px] h-[130px] mx-auto">
+      <div className="relative w-full max-w-[400px] h-[130px] mx-auto overflow-hidden px-4">
         {/* Twitter (X) */}
         <div
           className={`w-25 h-25 rounded-full border-[6px] border-black bg-[#f1f1f1] flex items-center justify-center absolute left-0 top-0 z-40 transition-all duration-700 ease-out ${

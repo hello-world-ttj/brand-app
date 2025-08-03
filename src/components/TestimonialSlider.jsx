@@ -80,7 +80,7 @@ export default function TestimonialSlider() {
       },
       {
         threshold: 0.1,
-        rootMargin: '0px 0px -50px 0px'
+        rootMargin: "0px 0px -50px 0px",
       }
     );
 
@@ -108,28 +108,32 @@ export default function TestimonialSlider() {
 
   return (
     <section ref={sectionRef} className="py-16 px-4 bg-gray-100">
-      <h2 className={`text-3xl font-bold text-center mb-2 transition-all duration-700 ease-out ${
-        titleVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
-      }`}>
+      <h2
+        className={`text-3xl font-bold text-center mb-2 transition-all duration-700 ease-out ${
+          titleVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+        }`}
+      >
         What Our Clients Say
       </h2>
-      <p className={`text-center text-gray-500 mb-10 max-w-xl mx-auto transition-all duration-700 ease-out ${
-        subtitleVisible 
-          ? 'opacity-100 translate-y-0' 
-          : 'opacity-0 translate-y-8'
-      }`}>
+      <p
+        className={`text-center text-gray-500 mb-10 max-w-xl mx-auto transition-all duration-700 ease-out ${
+          subtitleVisible
+            ? "opacity-100 translate-y-0"
+            : "opacity-0 translate-y-8"
+        }`}
+      >
         Real businesses. Real results. See how our Dubai SEO strategies have
         helped brands grow.
       </p>
 
       <div className="relative max-w-5xl mx-auto">
-        <div className={`bg-white p-6 md:p-10 rounded-2xl shadow-md flex flex-col md:flex-row gap-6 items-center transition-all duration-700 ease-out ${
-          cardVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-12'
-        }`}>
+        <div
+          className={`bg-white p-6 md:p-10 rounded-2xl shadow-md flex flex-col md:flex-row gap-6 items-center transition-all duration-700 ease-out ${
+            cardVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-12"
+          }`}
+        >
           <img
             src={testimonials[current].image}
             alt="Client"
@@ -156,34 +160,38 @@ export default function TestimonialSlider() {
           </div>
         </div>
 
-        {/* Arrows */}
+        {/* Left Arrow */}
         <button
           onClick={prev}
-          className={`absolute top-1/3 -left-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
-            controlsVisible 
-              ? 'opacity-100 translate-x-0' 
-              : 'opacity-0 -translate-x-8'
+          className={`absolute top-1/3 left-2 md:-left-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
+            controlsVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 -translate-x-8"
           }`}
         >
           <ChevronLeft size={20} />
         </button>
+
+        {/* Right Arrow */}
         <button
           onClick={next}
-          className={`absolute top-1/3 -right-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
-            controlsVisible 
-              ? 'opacity-100 translate-x-0' 
-              : 'opacity-0 translate-x-8'
+          className={`absolute top-1/3 right-2 md:-right-20 transform -translate-y-1/2 bg-white p-2 rounded-full shadow hover:scale-105 transition-all duration-700 ease-out ${
+            controlsVisible
+              ? "opacity-100 translate-x-0"
+              : "opacity-0 translate-x-8"
           }`}
         >
           <ChevronRight size={20} />
         </button>
 
         {/* Pagination dots */}
-        <div className={`flex justify-center mt-6 space-x-2 transition-all duration-700 ease-out ${
-          controlsVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-4'
-        }`}>
+        <div
+          className={`flex justify-center mt-6 space-x-2 transition-all duration-700 ease-out ${
+            controlsVisible
+              ? "opacity-100 translate-y-0"
+              : "opacity-0 translate-y-4"
+          }`}
+        >
           {testimonials.map((_, idx) => (
             <button
               key={idx}
@@ -196,11 +204,11 @@ export default function TestimonialSlider() {
         </div>
 
         {/* CTA */}
-        <div className={`text-center mt-10 transition-all duration-700 ease-out ${
-          ctaVisible 
-            ? 'opacity-100 translate-y-0' 
-            : 'opacity-0 translate-y-8'
-        }`}>
+        <div
+          className={`text-center mt-10 transition-all duration-700 ease-out ${
+            ctaVisible ? "opacity-100 translate-y-0" : "opacity-0 translate-y-8"
+          }`}
+        >
           <p className="text-gray-600 mb-3">
             Want to see similar results for your business?
           </p>
